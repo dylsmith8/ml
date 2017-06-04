@@ -26,16 +26,16 @@ sigma = zeros(1, size(X, 2));
 % Hint: You might find the 'mean' and 'std' functions useful.
 %       
 
-num_features = columns(X);
-for feature = 1 : num_features,
-	mu = mean(X(:, feature));
-	sigma = std(X(:, feature));
-	X_norm = X - mu  ./ sigma
-end 
+%num_features = columns(X);
+%for feature = 1 : num_features,
+%	mu = mean(X(:, feature));
+%	sigma = std(X(:, feature));
+%	X_norm = (X - mu)  ./ sigma
+%end 
 
-%mu = mean(X);
-%sigma = std(X); 
-%X_norm = (X - mu) ./ sigma;
+mu = mean(X);
+sigma = std(X); 
+X_norm = (X - mu) ./ sigma;
 
 % ============================================================
 
