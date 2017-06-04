@@ -26,7 +26,7 @@ sigma = zeros(1, size(X, 2));
 % Hint: You might find the 'mean' and 'std' functions useful.
 %       
 
-num_features = 2;
+num_features = columns(X);
 for feature = 1 : num_features,
 	mu = mean(X(:, feature));
 	sigma = std(X(:, feature));
