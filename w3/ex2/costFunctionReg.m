@@ -17,10 +17,23 @@ grad = zeros(size(theta));
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
+	% Ignore the first value in the matrix 
+	theta_ignore = [0; theta(2 : end, :)];
 
+	% Cost function 
+	firstTerm = -y' * (log(sigmoid(X * theta)));
+	secondTerm = -1 .* ((1 - y') * log(1 - (sigmoid(X  * theta))));
+	unregularisedCostFunction = (1 / m) * sum(firstTerm + secondTerm);
 
+	regularisationTerm = (lambda / (2 * m)) * sum(theta_ignore .^2);
 
+	J = unregularisedCostFunction + regularisationTerm;
 
+	% Gradient 
+	unregularisedGrad = (1 / m) * X' * (sigmoid((X * theta)) - y);
+	regularisationTermForGrad = (lambda / m) * (theta_ignore);
+
+	grad = unregularisedGrad + regularisationTermForGrad;
 
 % =============================================================
 
