@@ -16,19 +16,19 @@ function [J grad] = nnCostFunction(nn_params, ...
 
 % Reshape nn_params back into the parameters Theta1 and Theta2, the weight matrices
 % for our 2 layer neural network
-Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
-                 hidden_layer_size, (input_layer_size + 1));
+	Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
+	                 hidden_layer_size, (input_layer_size + 1));
 
-Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
-                 num_labels, (hidden_layer_size + 1));
+	Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
+	                 num_labels, (hidden_layer_size + 1));
 
-% Setup some useful variables
-m = size(X, 1);
-         
-% You need to return the following variables correctly 
-J = 0;
-Theta1_grad = zeros(size(Theta1));
-Theta2_grad = zeros(size(Theta2));
+	% Setup some useful variables
+	m = size(X, 1);
+	         
+	% You need to return the following variables correctly 
+	J = 0;
+	Theta1_grad = zeros(size(Theta1));
+	Theta2_grad = zeros(size(Theta2));
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: You should complete the code by working through the
@@ -62,30 +62,45 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+	% change labels into a binary vector 
+	I = eye(num_labels);
+	Y = zeros(m, num_labels);
+	for i = 1:m,
+	  Y(i, :) = I(y(i), :);
+	end
 
+	% feed forward propagation 
+	a1 = [ones(m, 1) X];
+	z2 = a1 * Theta1';
 
+	a2 = [ones(size(z2,1), 1) sigmoid(z2)];
+	z3 = a2 * Theta2';
 
+	% hypothesis
+	h = sigmoid(z3);
+	a3 = h;
 
+	% work out the cost function 
+	costUnregularised = (-1 / m) * sum(sum(Y .* log(h) + (1 - Y) .* log(1 - h), 2));
 
+		% for theta j THEN theta i 
+	costRegularisationTerm = (lambda / (2 * m)) * (sum(sum(Theta1(:, 2 : end) .^2, 2)) + sum(sum(Theta2(:, 2 : end) .^2, 2)));
 
+	J = costUnregularised + costRegularisationTerm;
 
+	% work out Ds using BACK PROPAGATION 
+	sig3 = a3 - Y;
+	sig2 = (sig3 * Theta2 .* sigmoidGradient([ones(size(z2, 1), 1) z2]))(:, 2 : end);
 
+	D1 = sig2' * a1; % layer1 - 1
+	D2 = sig3' * a2; 
 
+		% skip the bias terms 
+	Theta1_grad = (D1 ./ m) + (lambda / m) * [zeros(size(Theta1, 1), 1) Theta1(:, 2 : end)];
+	Theta2_grad = (D2 ./ m)  + (lambda / m) * [zeros(size(Theta2, 1), 1) Theta2(:, 2 : end)];
 
+	% =========================================================================
 
-
-
-
-
-
-
-
-% -------------------------------------------------------------
-
-% =========================================================================
-
-% Unroll gradients
-grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
-
+	% Unroll gradients
+	grad = [Theta1_grad(:) ; Theta2_grad(:)];
 end
