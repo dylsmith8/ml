@@ -95,7 +95,7 @@ function [J grad] = nnCostFunction(nn_params, ...
 	D1 = sig2' * a1; % layer1 - 1
 	D2 = sig3' * a2; 
 
-		% skip the bias terms 
+		% skip the bias terms for implementing the gradient regularisation 
 	Theta1_grad = (D1 ./ m) + (lambda / m) * [zeros(size(Theta1, 1), 1) Theta1(:, 2 : end)];
 	Theta2_grad = (D2 ./ m)  + (lambda / m) * [zeros(size(Theta2, 1), 1) Theta2(:, 2 : end)];
 
