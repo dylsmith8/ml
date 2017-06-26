@@ -63,3 +63,11 @@ function [error_train, error_val] = ...
 
 % =========================================================================
 end
+
+%  graph produced illustrates that hypothesis contains HIGH BIAS since it resulted in underfitting 
+%  the data (see the first line of best fit that was produced). This graph confirms this fact since 
+%  the cross validation set and training set are close to each other.
+
+% We can address this problem by adding more features to the training set and the re training our algorithm
+
+
