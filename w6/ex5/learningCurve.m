@@ -14,12 +14,12 @@ function [error_train, error_val] = ...
 %   datasets, you might want to do this in larger intervals.
 %
 
-% Number of training examples
-m = size(X, 1);
+	% Number of training examples
+	m = size(X, 1);
 
-% You need to return these values correctly
-error_train = zeros(m, 1);
-error_val   = zeros(m, 1);
+	% You need to return these values correctly
+	error_train = zeros(m, 1);
+	error_val   = zeros(m, 1);
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return training errors in 
@@ -50,17 +50,16 @@ error_val   = zeros(m, 1);
 %           
 %       end
 %
-
 % ---------------------- Sample Solution ----------------------
-
-
-
-
-
-
-
+	for i = 1 : m,
+		% first train the algorithm only for the training sub set
+		theta = trainLinearReg(X(1 : i, :), y(1 : i, :), lambda);
+		% set lambda to zero to eliminate the regularisation term and just get square errors
+		error_train(i) = linearRegCostFunction (X(1 : i, :), y(1 : i, :), theta, 0);
+		% compute over entire cross validation set 
+		error_val(i) = linearRegCostFunction(Xval, yval, theta, 0);
+	end 
 % -------------------------------------------------------------
 
 % =========================================================================
-
 end
