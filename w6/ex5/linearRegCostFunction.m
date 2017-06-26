@@ -29,8 +29,10 @@ function [J, grad] = linearRegCostFunction(X, y, theta, lambda)
 	J = costUnregularised+ regTerm;
 
 	% grad
-	
+	unregularisedGrad = (1 / m) * X' * ((X * theta) - y);
+	regularisationTermForGrad = (lambda / m) * ([0; theta(2 : end, :)]);
 
+	grad = unregularisedGrad + regularisationTermForGrad;
 
 % =========================================================================
 
