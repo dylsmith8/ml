@@ -14,6 +14,9 @@ function [X_poly] = polyFeatures(X, p)
 %               column of X contains the values of X to the p-th power.
 %
 %
+	% numel --> get the number of elements
+	% 	loop through the elements in X and 
+	%	create polynomial terms up to p
 	for i = 1 : numel(X)
 	    for j = 1 : p
 	        X_poly(i, j) = X(i) ^ j;
