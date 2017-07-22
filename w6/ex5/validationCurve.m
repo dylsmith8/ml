@@ -10,11 +10,11 @@ function [lambda_vec, error_train, error_val] = ...
 %
 
 % Selected values of lambda (you should not change this)
-lambda_vec = [0 0.001 0.003 0.01 0.03 0.1 0.3 1 3 10]';
+	lambda_vec = [0 0.001 0.003 0.01 0.03 0.1 0.3 1 3 10]';
 
-% You need to return these variables correctly.
-error_train = zeros(length(lambda_vec), 1);
-error_val = zeros(length(lambda_vec), 1);
+	% You need to return these variables correctly.
+	error_train = zeros(length(lambda_vec), 1);
+	error_val = zeros(length(lambda_vec), 1);
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return training errors in 
@@ -38,16 +38,14 @@ error_val = zeros(length(lambda_vec), 1);
 %       end
 %
 %
-
-
-
-
-
-
-
-
-
-
+	for i = 1 : length(lambda_vec),
+		% test each value of lambda
+		lambda = lambda_vec(i);
+		% train the values using selected value
+		theta =  trainLinearReg(X, y, lambda);
+		% compute the training and cross validation error (0 for cancelling out regularisation term)
+		error_train(i) = linearRegCostFunction(X, y, theta, 0);
+		error_val(i) = linearRegCostFunction(Xval, yval, theta, 0);
+	end	
 % =========================================================================
-
 end
